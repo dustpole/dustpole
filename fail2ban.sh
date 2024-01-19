@@ -12,20 +12,21 @@ fi
 . /etc/os-release
 
 
-if [[ "$ID" == "fedora" && $VERSION_ID -gt 21 ]]
+if [[ "$ID" == "centos" && $VERSION_ID -gt 6 ]] || \
+   [[ "$ID" == "fedora" && $VERSION_ID -gt 21 ]] || \
+   [[ "$ID" == "rhel" && $VERSION_ID -gt 6 ]]
 then
-    # try to use fail2ban
+    # try to use fail2ban and install if needed.
     which fail2ban >/dev/null
     if [[ $? -ne 0 ]]
     then
-		# Install fail2ban
         yum install fail2ban -y
 		printf "Installed fail2ban"
 	fi
 	
 	# Configure fail2ban
-	sudo systemctl enable fail2ban
-	sudo systemctl start fail2ban
+	systemctl enable fail2ban
+	systemctl start fail2ban
 	printf "fail2ban Enabled/Started"
 else
     printf "${error}ERROR: Fail2ban did not install or start.${reset}\n"

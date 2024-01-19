@@ -4,6 +4,7 @@
 if [ $(whoami) != "root" ]; then
     echo "Script must be run as root"
     exit 1
+fi
 
 if [[ "$ID" == "fedora" && $VERSION_ID -gt 21 ]] || \
 then
@@ -18,12 +19,13 @@ then
 	printf "fail2ban Enabled/Started"
 	
 		cat > /etc/fail2ban/jail.local <<- EOM
+			backend = systemd
 			[sshd]
 			enabled = true
 			bantime = 5m
 			maxretry = 3
 		EOM
-printf "fail2ban configured"
+	printf "fail2ban configured"
 fi
 
 exit 0

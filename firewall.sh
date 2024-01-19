@@ -272,8 +272,12 @@ else
     iptables -A OUTPUT -j DROP
 
     # Backup Rules (iptables-restore < /opt/bak/ip_rules)
-    iptables-save > /opt/bak/ip_rules
+	if [[ ! -d /opt/bak ]]
+	then
+		mkdir -p /opt/bak
+	fi
 
+    iptables-save > /opt/bak/ip_rules
     # list rules for review
     iptables -L -v -n
 fi

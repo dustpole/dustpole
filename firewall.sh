@@ -24,7 +24,7 @@ printf "${info}Starting firewall script${reset}\n"
 
 # Checking for either iptables or firewalld
 if [[ "$ID" == "centos" && $VERSION_ID -gt 6 ]] || \
-   [[ "$ID" == "fedora" && $VERSION_ID -gt 17 ]] || \
+   [[ "$ID" == "fedora" && $VERSION_ID -gt 21 ]] || \
    [[ "$ID" == "rhel" && $VERSION_ID -gt 6 ]]
 then
     # try to use iptables

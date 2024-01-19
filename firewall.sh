@@ -10,6 +10,8 @@
 #
 # Kaicheng Ye
 # Dec. 2023
+# Modified Dustin Pollreis
+# Jan. 2024
 
 if [[ "$(id -u)" != "0" ]]
 then
@@ -267,6 +269,18 @@ else
     # Allow outgoing DHCP
     iptables -A OUTPUT -p udp --dport 67 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p udp --sport 67 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+    # Allow outgoing SMTP
+    iptables -A OUTPUT -p tcp -m multiport --dports 25,587,465,2525 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp -m multiport --sports 25,587,465,2525 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+    # Allow outgoing POP3
+    iptables -A OUTPUT -p tcp -m multiport --dports 110,995 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp -m multiport --sports 110,995 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+    # Allow outgoing IMAP
+    iptables -A OUTPUT -p tcp -m multiport --dports 143,993 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp -m multiport --sports 143,993 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow local communication
     iptables -A INPUT -i lo -j ACCEPT

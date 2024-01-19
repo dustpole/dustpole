@@ -26,14 +26,13 @@ then
     mv var/ old/
     mv bin/ old/
     mv sbin/ old/
-    mv etc/postfix/ old/postfix/
     cd $PWD
 fi
 
 printf "${info}Copying files${reset}\n"
-cp -r /etc /opt/bak/
-cp -r /var /opt/bak/
-cp -r /usr/bin /opt/bak/
-cp -r /usr/sbin /opt/bak/
+cp -r /etc/* /opt/bak/etc/
+cp -r /var/* /opt/bak/var/
+cp -r /usr/bin/* /opt/bak/bin/
+cp -r /usr/sbin/* /opt/bak/sbin/
 
 exit 0

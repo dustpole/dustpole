@@ -26,6 +26,7 @@ then
     mv var/ old/
     mv bin/ old/
     mv sbin/ old/
+    mv etc/postfix/ old/postfix/
     cd $PWD
 fi
 

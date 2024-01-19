@@ -1,7 +1,6 @@
 #!/bin/bash
 # fail2ban.sh
 
-
 # Check for root
 if [[ "$(id -u)" != "0" ]]
 then
@@ -19,23 +18,27 @@ then
     which fail2ban >/dev/null
     if [[ $? -ne 0 ]]
     then
+		# Install fail2ban
         yum install fail2ban -y
 		printf "Installed fail2ban"
 	fi
 	
-	# Install and configure fail2ban
+	# Configure fail2ban
 	sudo systemctl enable fail2ban
 	sudo systemctl start fail2ban
 	printf "fail2ban Enabled/Started"
+else
+    printf "${error}ERROR: Fail2ban did not install or start.${reset}\n"
+    exit 1
+fi	
 	
-	cat > /etc/fail2ban/jail.local <<- EOM
-		backend = systemd
-		[sshd]
-		enabled = true
-		bantime = 5m
-		maxretry = 3
+cat > /etc/fail2ban/jail.local <<- EOM
+	backend = systemd
+	[sshd]
+	enabled = true
+	bantime = 5m
+	maxretry = 3
 	EOM
-	printf "fail2ban configured"
-fi
+printf "fail2ban configured"
 
 exit 0

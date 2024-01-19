@@ -1,8 +1,11 @@
 #!/bin/bash
+# fail2ban.sh
+
 
 # Check for root
-if [ $(whoami) != "root" ]; then
-    echo "Script must be run as root"
+if [[ "$(id -u)" != "0" ]]
+then
+    printf "${error}ERROR: The script must be run with sudo privileges!${reset}\n"
     exit 1
 fi
 

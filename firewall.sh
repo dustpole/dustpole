@@ -10,7 +10,8 @@
 #
 # Kaicheng Ye
 # Dec. 2023
-# Modified Dustin Pollreis
+# Modified of webmail and Fedora 21
+# Dustin Pollreis
 # Jan. 2024
 
 if [[ "$(id -u)" != "0" ]]

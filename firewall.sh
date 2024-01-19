@@ -32,6 +32,11 @@ then
     if [[ $? -ne 0 ]]
     then
         yum install iptables -y
+    fi
+	    # try to use iptables-services
+    which yum check installed iptables-services >/dev/null
+    if [[ $? -ne 0 ]]
+    then
         yum install iptables-services -y
     fi
 

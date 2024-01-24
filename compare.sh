@@ -6,4 +6,5 @@ list=(
 for i in $list
 do
    echo $i
+   diff <(cat $i) <(cut -f2 /opt/bak$i)
 done

@@ -39,6 +39,7 @@ mkdir -p "$backup_dir/cfg" || handle_error "Failed to create backup directory"
 # Use tar to create a compressed archive of the entire filesystem
 tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run \
     --exclude=/mnt --exclude=/media --exclude=/lost+found \
+    --exclude=/opt --exclude=/var/cache \
     -cvpzf "$backup_dir/$backup_filename" / 2>> "$log_file"
 
 # Check if the backup was successful

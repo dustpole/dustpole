@@ -20,6 +20,11 @@ for i in "${list[@]}"; do
 	systemctl stop "$i"
 done
 
+# Print a message indicating the start of the restore
+
+echo "Starting restore from backup script"
+log "Starting restore from backup script"
+
 # Specify the backup file to restore
 
 backup_fld=(
@@ -39,17 +44,6 @@ for i in "${list[@]}"; do
 	cp -R "/opt/bak/cfg$i" /
 done
 
-
-backup_dir="/opt/bak/full_backup"
-latest_backup=$(ls -t "$backup_dir" | head -n 1)
-
-if [ -z "$latest_backup" ]; then
-    echo "ERROR: No backup file found in $backup_dir"
-    exit 1
-fi
-
-backup_file="$backup_dir/$latest_backup"
-
 # Log file for capturing script output
 log_file="/var/log/restore.log"
 
@@ -68,12 +62,6 @@ handle_error() {
     log "ERROR: $error_message"
     exit 1
 }
-
-# Print a message indicating the start of the restore
-
-echo "Starting restore from backup script"
-log "Starting restore from backup script"
-
 
 # Restart Services
 

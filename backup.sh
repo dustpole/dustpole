@@ -90,7 +90,7 @@ list=(
     "/etc/dovecot"
 )
 for i in "${list[@]}"; do
-    cp -R "$i" "$backup_cfg"
+    cp -R "$i" "$backup_cfg$i"
 done
 
 chmod 640 /opt/bak

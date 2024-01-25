@@ -40,6 +40,7 @@ mkdir -p "$backup_dir/cfg" || handle_error "Failed to create backup directory"
 tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run \
     --exclude=/mnt --exclude=/media --exclude=/lost+found \
     --exclude=/opt --exclude=/var/cache --exclude=/var/lib/yum --exclude=/usr/share \
+    --exclude=/var/log/journal \
     -cvpzf "$backup_dir/$backup_filename" / 2>> "$log_file"
 
 # Check if the backup was successful
@@ -50,10 +51,34 @@ else
     handle_error "Full backup failed. Check $log_file for details."
 fi
 
-list=("/etc/postfix/master.cf" "/etc/postfix/ad_virtual_mailbox_maps.cf" "/etc/postfix/ldap-alias.cf" "/etc/postfix/ad_sender_login_maps.cf" "/etc/postfix/main.cf" "/etc/roundcubemail/config.inc.php" "/etc/ssh/sshd_config" "/etc/ssh/ssh_config" "/etc/sysconfig/iptables-config" "/etc/security/chroot.conf" "/etc/ssmtp/ssmtp.conf" "/etc/Pegasus/access.conf" "/etc/passwdqc.conf" "/etc/httpd/conf.d/php.conf" "/etc/httpd/conf.d/roundcubemail.conf" "/etc/httpd/conf.d/userdir.conf" "/etc/httpd/conf/httpd.conf" "/etc/audit/auditd.conf" "/etc/openldap/ldap.conf" "/etc/dovecot/dovecot-state.conf" "/etc/dovecot/dovecot.conf" "/etc/dovecot/dovecot-ldap.conf" "/etc/host.conf" "/etc/ntp.conf")
-
-for i in $list; do
-	cp -R "$i" "$backup_dir/cfg"
+list=(
+    "/etc/postfix/master.cf" 
+    "/etc/postfix/ad_virtual_mailbox_maps.cf" 
+    "/etc/postfix/ldap-alias.cf" 
+    "/etc/postfix/ad_sender_login_maps.cf" 
+    "/etc/postfix/main.cf" 
+    "/etc/roundcubemail/config.inc.php" 
+    "/etc/ssh/sshd_config" 
+    "/etc/ssh/ssh_config" 
+    "/etc/sysconfig/iptables-config" 
+    "/etc/security/chroot.conf" 
+    "/etc/ssmtp/ssmtp.conf" 
+    "/etc/Pegasus/access.conf" 
+    "/etc/passwdqc.conf" 
+    "/etc/httpd/conf.d/php.conf" 
+    "/etc/httpd/conf.d/roundcubemail.conf" 
+    "/etc/httpd/conf.d/userdir.conf" 
+    "/etc/httpd/conf/httpd.conf" 
+    "/etc/audit/auditd.conf" 
+    "/etc/openldap/ldap.conf" 
+    "/etc/dovecot/dovecot-state.conf" 
+    "/etc/dovecot/dovecot.conf" 
+    "/etc/dovecot/dovecot-ldap.conf" 
+    "/etc/host.conf" 
+    "/etc/ntp.conf"
+)
+for i in "${list[@]}"; do
+    cp -R "$i" "$backup_dir/cfg"
 done
 
 exit 0

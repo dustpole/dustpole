@@ -252,8 +252,8 @@ else
     iptables -A INPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow all outgoing http & https
-    iptables -A OUTPUT -p tcp -m multiport --dports 80,443,8000 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-    iptables -A INPUT -p tcp -m multiport --sports 80,443,8000 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p tcp -m multiport --dports 80,443,8000,9090 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp -m multiport --sports 80,443,8000,9090 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow outgoing DNS
     iptables -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
@@ -278,6 +278,10 @@ else
     # Allow outgoing POP3
     iptables -A OUTPUT -p tcp -m multiport --dports 110,995 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p tcp -m multiport --sports 110,995 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    
+    # Allow outgoing MySQL
+    iptables -A OUTPUT -p tcp -m multiport --dports 3306 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp -m multiport --sports 3306 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow outgoing IMAP
     iptables -A OUTPUT -p tcp -m multiport --dports 143,993 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
@@ -301,5 +305,7 @@ else
     # list rules for review
     iptables -L -v -n
 fi
+
+systemctl restart iptables
 
 exit 0

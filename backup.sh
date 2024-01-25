@@ -52,9 +52,7 @@ fi
 
 list=("/etc/postfix/master.cf" "/etc/postfix/ad_virtual_mailbox_maps.cf" "/etc/postfix/ldap-alias.cf" "/etc/postfix/ad_sender_login_maps.cf" "/etc/postfix/main.cf" "/etc/roundcubemail/config.inc.php" "/etc/ssh/sshd_config" "/etc/ssh/ssh_config" "/etc/sysconfig/iptables-config" "/etc/security/chroot.conf" "/etc/ssmtp/ssmtp.conf" "/etc/Pegasus/access.conf" "/etc/passwdqc.conf" "/etc/httpd/conf.d/php.conf" "/etc/httpd/conf.d/roundcubemail.conf" "/etc/httpd/conf.d/userdir.conf" "/etc/httpd/conf/httpd.conf" "/etc/audit/auditd.conf" "/etc/openldap/ldap.conf" "/etc/dovecot/dovecot-state.conf" "/etc/dovecot/dovecot.conf" "/etc/dovecot/dovecot-ldap.conf" "/etc/host.conf" "/etc/ntp.conf")
 
-
-for i in $list
-do
+for i in $list; do
 	cp -R "$i" "$backup_dir/cfg"
 done
 

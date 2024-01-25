@@ -34,15 +34,23 @@ backup_fld=(
     "/var/lib/mysql"
     "/var/lib/postfix"
     "/var/lib/roundcubemail"
+)
+for i in "${backup_fld[@]}"; do
+	cp -R "/opt/bak/cfg/var$i" /var
+done
+
+
+backup_fld2=(
     "/etc/httpd"
     "/etc/ssmtp"
     "/etc/roundcubemail"
     "/etc/postfix"
     "/etc/dovecot"
 )
-for i in "${backup_fld[@]}"; do
-	cp -R "/opt/bak/cfg$i" /
+for i in "${backup_fld2[@]}"; do
+	cp -R "/opt/bak/cfg/etc$i" /etc
 done
+
 
 # Log file for capturing script output
 log_file="/var/log/restore.log"

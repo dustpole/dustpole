@@ -43,39 +43,39 @@ then
     then
         yum install iptables-services -y
     fi
-
+fi
 printf "Using ${info}$FIREWALL${reset}\n\n"
 
 # Getting set up
 
-    # allow iptables to run
-    # check for systemctl
+# allow iptables to run
+# check for systemctl
+which systemctl >/dev/null
+if [[ $? -eq 0 ]]
+then
+    systemctl unmask iptables
+    systemctl enable iptables
+    systemctl start iptables
+else
+    service iptables enable
+    service iptables start
+fi
+
+# must disable firewalld if it's a thing
+which firewall-cmd >/dev/null
+if [[ $? -eq 0 ]]
+then
     which systemctl >/dev/null
     if [[ $? -eq 0 ]]
     then
-        systemctl unmask iptables
-        systemctl enable iptables
-        systemctl start iptables
+        systemctl disable firewalld
+        systemctl stop firewalld
+        systemctl mask firewalld
     else
-        service iptables enable
-        service iptables start
+        service firewalld stop
+        service firewalld disable
     fi
-
-    # must disable firewalld if it's a thing
-    which firewall-cmd >/dev/null
-    if [[ $? -eq 0 ]]
-    then
-        which systemctl >/dev/null
-        if [[ $? -eq 0 ]]
-        then
-            systemctl disable firewalld
-            systemctl stop firewalld
-            systemctl mask firewalld
-        else
-            service firewalld stop
-            service firewalld disable
-        fi
-    fi
+fi
 
 # Clearing the rules
 iptables -F
@@ -144,18 +144,18 @@ then
     # DROP everything else
     iptables -A INPUT -j DROP
     iptables -A OUTPUT -j DROP
-fi
 
-# Backup Rules (iptables-restore < /opt/bak/ip_rules)
-if [[ ! -d /opt/bak ]]
-then
+    # Backup Rules (iptables-restore < /opt/bak/ip_rules)
+    if [[ ! -d /opt/bak ]]
+    then
 	mkdir -p /opt/bak
+    fi
+
+    iptables-save > /opt/bak/ip_rules
+    # list rules for review
+    iptables -L -v -n
+    # Restart iptables srevice.
+    systemctl restart iptables
 fi
-
-iptables-save > /opt/bak/ip_rules
-# list rules for review
-iptables -L -v -n
-
-systemctl restart iptables
 
 exit 0

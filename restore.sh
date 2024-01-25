@@ -23,7 +23,6 @@ done
 # Print a message indicating the start of the restore
 
 echo "Starting restore from backup script"
-log "Starting restore from backup script"
 
 # Specify the backup file to restore
 

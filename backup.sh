@@ -89,6 +89,24 @@ list=(
     "/etc/postfix"
     "/etc/dovecot"
 )
+list_dir=(
+    "/var/lib/mysql"
+    "/var/lib/dovecot"
+    "/var/lib/php"
+    "/var/lib/mysql"
+    "/var/lib/postfix"
+    "/var/lib/roundcubemail"
+    "/etc/httpd"
+    "/etc/ssmtp"
+    "/etc/roundcubemail"
+    "/etc/postfix"
+    "/etc/dovecot"
+)
+mkdir -p
+for i in "${list_dir[@]}"; do
+    mkdir -p "$backup_cfg$i"
+done
+
 for i in "${list[@]}"; do
     cp -R "$i" "$backup_cfg$i"
 done

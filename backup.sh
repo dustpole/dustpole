@@ -81,6 +81,6 @@ for i in "${list[@]}"; do
     cp -R "$i" "$backup_dir/cfg"
 done
 
-chmod -R 640 /opt/bak/fullbackup/cfg
+chmod -R 640 /opt/bak/fullbackup
 
 exit 0

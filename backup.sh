@@ -35,7 +35,7 @@ log "Starting full backup script"
 
 # Create backup destination directory if it doesn't exist
 mkdir -p "$backup_dir" || handle_error "Failed to create backup directory"
-mkdir -p "$backup_dir/cfg" || handle_error "Failed to create backup directory"
+mkdir -p "$backup_cfg" || handle_error "Failed to create backup directory"
 
 # Use tar to create a compressed archive of the entire filesystem
 tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run \

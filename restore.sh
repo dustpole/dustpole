@@ -40,7 +40,7 @@ backup_fld=(
     "/etc/postfix"
     "/etc/dovecot"
 )
-for i in "${list[@]}"; do
+for i in "${backup_fld[@]}"; do
 	cp -R "/opt/bak/cfg$i" /
 done
 

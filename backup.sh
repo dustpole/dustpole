@@ -8,6 +8,7 @@ fi
 
 # Define backup destination directory
 backup_dir="/opt/bak/fullbackup"
+backup_cfg="/opt/bak/cfg"
 timestamp=$(date +%Y%m%d%H%M%S)
 backup_filename="fullbackup$timestamp.tar.gz"
 
@@ -34,7 +35,7 @@ log "Starting full backup script"
 
 # Create backup destination directory if it doesn't exist
 mkdir -p "$backup_dir" || handle_error "Failed to create backup directory"
-mkdir -p "$backup_dir/cfg" || handle_error "Failed to create backup directory"
+mkdir -p "$backup_cfg" || handle_error "Failed to create backup directory"
 
 # Use tar to create a compressed archive of the entire filesystem
 tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run \
@@ -78,7 +79,7 @@ list=(
     "/etc/ntp.conf"
 )
 for i in "${list[@]}"; do
-    cp -R "$i" "$backup_dir/cfg"
+    cp -R "$i" "$backup_cfg"
 done
 
 chmod -R 640 /opt/bak/fullbackup/cfg

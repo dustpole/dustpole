@@ -8,7 +8,7 @@ fi
 
 # Specify the backup file to restore
 
-backup_dir="/opt/bak/full_backup"
+backup_dir="/opt/bak/fullbackup"
 latest_backup=$(ls -t "$backup_dir" | head -n 1)
 
 if [ -z "$latest_backup" ]; then

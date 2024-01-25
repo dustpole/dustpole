@@ -52,7 +52,7 @@ else
     handle_error "Full backup failed. Check $log_file for details."
 fi
 
-list=(
+list_file=(
     "/etc/postfix/master.cf" 
     "/etc/postfix/ad_virtual_mailbox_maps.cf" 
     "/etc/postfix/ldap-alias.cf" 
@@ -77,17 +77,6 @@ list=(
     "/etc/dovecot/dovecot-ldap.conf" 
     "/etc/host.conf" 
     "/etc/ntp.conf"
-    "/var/lib/mysql"
-    "/var/lib/dovecot"
-    "/var/lib/php"
-    "/var/lib/mysql"
-    "/var/lib/postfix"
-    "/var/lib/roundcubemail"
-    "/etc/httpd"
-    "/etc/ssmtp"
-    "/etc/roundcubemail"
-    "/etc/postfix"
-    "/etc/dovecot"
 )
 list_dir=(
     "/var/lib/mysql"
@@ -105,10 +94,11 @@ list_dir=(
 mkdir -p
 for i in "${list_dir[@]}"; do
     mkdir -p "/opt/bak/cfg$i"
+    cp -R "$i" "$backup_cfg$i"
 done
 
-for i in "${list[@]}"; do
-    cp -R "$i" "$backup_cfg$i"
+for i in "${list_file[@]}"; do
+    cp -R "$i" "$backup_cfg"
 done
 
 chmod 640 /opt/bak

@@ -36,7 +36,7 @@ backup_fld=(
     "/var/lib/roundcubemail"
 )
 for i in "${backup_fld[@]}"; do
-	cp -R "/opt/bak/cfg/var$i" "/var$i"
+	cp -R "/opt/bak/cfg$i" "$i"
 done
 
 
@@ -48,7 +48,7 @@ backup_fld2=(
     "/etc/dovecot"
 )
 for i in "${backup_fld2[@]}"; do
-	cp -R "/opt/bak/cfg/etc$i" "/etc$i"
+	cp -R "/opt/bak/cfg$i" "$i"
 done
 
 

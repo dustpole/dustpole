@@ -91,10 +91,8 @@ list_dir=(
     "/etc/postfix"
     "/etc/dovecot"
 )
-mkdir -p
 for i in "${list_dir[@]}"; do
-    mkdir -p "/opt/bak/cfg$i"
-    cp -R "$i" "$backup_cfg$i"
+    mkdir -p "$backup_cfg$i" && cp -R "$i" "$_"
 done
 
 for i in "${list_file[@]}"; do

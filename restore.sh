@@ -6,9 +6,41 @@ if [[ "$(id -u)" != "0" ]]; then
     exit 1
 fi
 
+# Stop Services
+
+list=(
+    "crond.service"
+    "dovecot.service"
+    "httpd.service"
+    "mariadb.service"
+    "postfix.service"
+    "sshd.service"
+)
+for i in "${list[@]}"; do
+	systemctl stop "$i"
+done
+
 # Specify the backup file to restore
 
-backup_dir="/opt/bak/fullbackup"
+backup_fld=(
+    "/var/lib/mysql"
+    "/var/lib/dovecot"
+    "/var/lib/php"
+    "/var/lib/mysql"
+    "/var/lib/postfix"
+    "/var/lib/roundcubemail"
+    "/etc/httpd"
+    "/etc/ssmtp"
+    "/etc/roundcubemail"
+    "/etc/postfix"
+    "/etc/dovecot"
+)
+for i in "${list[@]}"; do
+	cp -R "/opt/bak/cfg$i" /
+done
+
+
+backup_dir="/opt/bak/full_backup"
 latest_backup=$(ls -t "$backup_dir" | head -n 1)
 
 if [ -z "$latest_backup" ]; then
@@ -42,29 +74,12 @@ handle_error() {
 echo "Starting restore from backup script"
 log "Starting restore from backup script"
 
-# Check if the backup file exists
 
-if [ ! -f "$backup_file" ]; then
-    handle_error "Backup file $backup_file not found"
-fi
+# Restart Services
 
-# Extract the backup to a temporary directory
-
-temp_dir=$(mktemp -d)
-tar -xzf "$backup_file" -C "$temp_dir" 2>> "$log_file"
-
-# Check if the extraction was successful
-
-if [ $? -eq 0 ]; then
-    echo "Backup extracted successfully to $temp_dir"
-    log "Backup extracted successfully to $temp_dir"
-else
-    handle_error "Failed to extract backup. Check $log_file for details."
-fi
-
-# Restore files from the temporary directory to their original locations
-
-cp -R "$temp_dir"/* /
+for i in "${list[@]}"; do
+	systemctl restart "$i"
+done
 
 # Check if the restore was successful
 
@@ -75,20 +90,5 @@ else
     handle_error "Restore failed. Check $log_file for details."
 fi
 
-# Cleanup temporary directory
-
-rm -r "$temp_dir"
-
-list=(
-    "crond.service"
-    "dovecot.service"
-    "httpd.service"
-    "mariadb.service"
-    "postfix.service"
-    "sshd.service"
-)
-for i in "${list[@]}"; do
-	systemctl restart "$i"
-done
 
 exit 0

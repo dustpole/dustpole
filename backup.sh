@@ -77,11 +77,22 @@ list=(
     "/etc/dovecot/dovecot-ldap.conf" 
     "/etc/host.conf" 
     "/etc/ntp.conf"
+    "/var/lib/mysql"
+    "/var/lib/dovecot"
+    "/var/lib/php"
+    "/var/lib/mysql"
+    "/var/lib/postfix"
+    "/var/lib/roundcubemail"
+    "/etc/httpd"
+    "/etc/ssmtp"
+    "/etc/roundcubemail"
+    "/etc/postfix"
+    "/etc/dovecot"
 )
 for i in "${list[@]}"; do
     cp -R "$i" "$backup_cfg"
 done
 
-chmod -R 640 /opt/bak/fullbackup/cfg
+chmod 640 /opt/bak
 
 exit 0

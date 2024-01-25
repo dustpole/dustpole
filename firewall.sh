@@ -25,7 +25,7 @@ printf "${info}Starting firewall script${reset}\n"
 # get some version information
 . /etc/os-release
 
-# Checking for either iptables or firewalld
+# Checking for iptables
 if [[ "$ID" == "centos" && $VERSION_ID -gt 6 ]] || \
    [[ "$ID" == "fedora" && $VERSION_ID -gt 21 ]] || \
    [[ "$ID" == "rhel" && $VERSION_ID -gt 6 ]]
@@ -82,10 +82,8 @@ iptables -F
 
 
 # main loop to block everything
-
-
-# finishing up
 if [[ "$FIREWALL" == "iptables" ]]
+then
     # iptables
     # Accept by default in case of flush
     iptables -P INPUT ACCEPT
@@ -146,17 +144,17 @@ if [[ "$FIREWALL" == "iptables" ]]
     # DROP everything else
     iptables -A INPUT -j DROP
     iptables -A OUTPUT -j DROP
-
-    # Backup Rules (iptables-restore < /opt/bak/ip_rules)
-	if [[ ! -d /opt/bak ]]
-	then
-		mkdir -p /opt/bak
-	fi
-
-    iptables-save > /opt/bak/ip_rules
-    # list rules for review
-    iptables -L -v -n
 fi
+
+# Backup Rules (iptables-restore < /opt/bak/ip_rules)
+if [[ ! -d /opt/bak ]]
+then
+	mkdir -p /opt/bak
+fi
+
+iptables-save > /opt/bak/ip_rules
+# list rules for review
+iptables -L -v -n
 
 systemctl restart iptables
 

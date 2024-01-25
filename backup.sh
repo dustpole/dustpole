@@ -104,7 +104,7 @@ list_dir=(
 )
 mkdir -p
 for i in "${list_dir[@]}"; do
-    mkdir -p "$backup_cfg$i"
+    mkdir -p "/opt/bak/cfg$i"
 done
 
 for i in "${list[@]}"; do

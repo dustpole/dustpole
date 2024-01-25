@@ -47,6 +47,7 @@ then
 printf "Using ${info}$FIREWALL${reset}\n\n"
 
 # Getting set up
+
     # allow iptables to run
     # check for systemctl
     which systemctl >/dev/null
@@ -76,9 +77,8 @@ printf "Using ${info}$FIREWALL${reset}\n\n"
         fi
     fi
 
-    # Clearing the rules
-    iptables -F
-fi
+# Clearing the rules
+iptables -F
 
 
 # main loop to block everything

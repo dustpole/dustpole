@@ -92,7 +92,7 @@ list_dir=(
     "/etc/dovecot"
 )
 for i in "${list_dir[@]}"; do
-    mkdir -p "$backup_cfg$i" && cp -R "$i" "$_"
+    mkdir -p "$backup_cfg$i" && cp -R "$i" "$backup_cfg$i"
 done
 
 for i in "${list_file[@]}"; do

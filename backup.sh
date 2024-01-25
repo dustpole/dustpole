@@ -8,6 +8,7 @@ fi
 
 # Define backup destination directory
 backup_dir="/opt/bak/fullbackup"
+backup_cfg="/opt/bak/cfg"
 timestamp=$(date +%Y%m%d%H%M%S)
 backup_filename="fullbackup$timestamp.tar.gz"
 
@@ -78,9 +79,9 @@ list=(
     "/etc/ntp.conf"
 )
 for i in "${list[@]}"; do
-    cp -R "$i" "$backup_dir/cfg"
+    cp -R "$i" "$backup_cfg"
 done
 
-chmod -R 640 /opt/bak/fullbackup
+chmod -R 640 /opt/bak
 
 exit 0

@@ -6,22 +6,23 @@ exec > >(sudo tee -a "$log_file") 2>&1
 echo "Log started: $(date)"
 
 # Check for dependencies
-if ! sudo command -v wget &> /dev/null; then
-    echo "wget is not installed. Please install it before running the script."
-    exit 1
-else
-    mkdir -p /opt/splunkforwarder
-fi
-
+# if ! sudo command -v wget &> /dev/null; then
+#     echo "wget is not installed. Please install it before running the script."
+#     exit 1
+# else
+#     mkdir -p /opt/splunkforwarder
+# fi
+#
 # Check if Splunk is already installed
 SPLUNK_HOME="/opt/splunkforwarder"
-if [ -d "$SPLUNK_HOME" ]; then
-    echo "Splunk is already installed. Exiting."
-    exit 1
-else
-    mkdir -p /opt/splunkforwarder
-fi
+# if [ -d "$SPLUNK_HOME" ]; then
+#    echo "Splunk is already installed. Exiting."
+#    exit 1
+# else
+#    mkdir -p /opt/splunkforwarder
+# fi
 
+mkdir -p $SPLUNK_HOME
 
 # Navigate to Splunk installation directory
 cd "$SPLUNK_HOME"

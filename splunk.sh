@@ -9,6 +9,8 @@ echo "Log started: $(date)"
 if ! sudo command -v wget &> /dev/null; then
     echo "wget is not installed. Please install it before running the script."
     exit 1
+else
+    mkdir -p /opt/splunkforwarder
 fi
 
 # Check if Splunk is already installed

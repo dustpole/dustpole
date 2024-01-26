@@ -36,11 +36,10 @@ sudo tar -xzf "$SPLUNK_HOME/splunkforwarder.tgz"
 sudo rm "$SPLUNK_HOME/splunkforwarder.tgz"
 
 # Set ownership and permissions
-sudo chown --recursive root:root "$SPLUNK_HOME"
+sudo chmod 770 root
 
 # Start Splunk and enable boot-start
 cd "$SPLUNK_HOME/bin"
-sudo chmod 770 root
 sudo ./splunk start --accept-license
 sudo ./splunk enable boot-start -user splunk
 

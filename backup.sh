@@ -79,6 +79,11 @@ list_file=(
     "/etc/host.conf" 
     "/etc/ntp.conf"
 )
+
+for i in "${list_file[@]}"; do
+    cp -R "$i" "$backup_cfg"
+done
+
 list_dir=(
     "/var/lib/mysql"
     "/var/lib/dovecot"
@@ -95,10 +100,6 @@ list_dir=(
 for i in "${list_dir[@]}"; do
     mkdir -p "$backup_cfg$i"
     cp -r "$i/." "$backup_cfg$i/"
-done
-
-for i in "${list_file[@]}"; do
-    cp -R "$i" "$backup_cfg"
 done
 
 chmod 640 /opt/bak

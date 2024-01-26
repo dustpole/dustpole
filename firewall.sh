@@ -190,6 +190,8 @@ else
     fi
 
     iptables-save > /opt/bak/ip_rules
+    sudo iptables-save > /etc/sysconfig/iptables
+    
     # list rules for review
     iptables -L -v -n
     # Restart iptables srevice.

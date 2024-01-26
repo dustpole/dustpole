@@ -1,6 +1,3 @@
-# Hardening script
-
-
 # Information Gathering
 
 printf "${info}Starting basic info script${reset}\n"

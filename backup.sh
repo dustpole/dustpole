@@ -41,7 +41,7 @@ mkdir -p "$backup_cfg" || handle_error "Failed to create backup directory"
 tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run \
     --exclude=/mnt --exclude=/media --exclude=/lost+found \
     --exclude=/opt --exclude=/var/cache --exclude=/var/lib/yum --exclude=/usr/share \
-    --exclude=/var/log/journal \
+    --exclude=/var/log/journal --exclude=/usr/lib/locale \
     -cvpzf "$backup_dir/$backup_filename" / 2>> "$log_file"
 
 # Check if the backup was successful

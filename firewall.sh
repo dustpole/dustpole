@@ -43,47 +43,85 @@ then
     then
         yum install iptables-services -y
     fi
+    which iptables >/dev/null
+    if [[ $? -eq 0 ]]
+    then
+        FIREWALL=iptables 
+    else
+        FIREWALL=firewalld
+    fi
+else
+    FIREWALL=iptables
 fi
 printf "Using ${info}$FIREWALL${reset}\n\n"
 
 # Getting set up
-
-# allow iptables to run
-# check for systemctl
-which systemctl >/dev/null
-if [[ $? -eq 0 ]]
+if [[ "$FIREWALL" == "firewalld" ]]
 then
-    systemctl unmask iptables
-    systemctl enable iptables
-    systemctl start iptables
-else
-    service iptables enable
-    service iptables start
-fi
-
-# must disable firewalld if it's a thing
-which firewall-cmd >/dev/null
-if [[ $? -eq 0 ]]
-then
+    # allow firewalld to run
+    # check for systemctl
     which systemctl >/dev/null
     if [[ $? -eq 0 ]]
     then
-        systemctl disable firewalld
-        systemctl stop firewalld
-        systemctl mask firewalld
+        systemctl unmask firewalld
+        systemctl enable firewalld
+        systemctl start firewalld
     else
-        service firewalld stop
-        service firewalld disable
+        service firewalld enable
+        service firewalld start
     fi
+    
+    # Clearing the rules
+    rm -rf /etc/firewalld/zones/ccdc*
+    firewall-cmd --reload
+    firewall-cmd --permanent --new-zone ccdc
+    firewall-cmd --reload
+    firewall-cmd --set-default-zone ccdc
+    zone=`firewall-cmd --get-default-zone`
+else
+    # allow iptables to run
+    # check for systemctl
+    which systemctl >/dev/null
+    if [[ $? -eq 0 ]]
+    then
+        systemctl unmask iptables
+        systemctl enable iptables
+        systemctl start iptables
+    else
+        service iptables enable
+        service iptables start
+    fi
+
+    # must disable firewalld if it's a thing
+    which firewall-cmd >/dev/null
+    if [[ $? -eq 0 ]]
+    then
+        which systemctl >/dev/null
+        if [[ $? -eq 0 ]]
+        then
+            systemctl disable firewalld
+            systemctl stop firewalld
+            systemctl mask firewalld
+        else
+            service firewalld stop
+            service firewalld disable
+        fi
+    fi
+
+    # Clearing the rules
+    iptables -F
 fi
 
-# Clearing the rules
-iptables -F
-
-
 # main loop to block everything
-if [[ "$FIREWALL" == "iptables" ]]
+if [[ "$FIREWALL" == "firewalld" ]]
 then
+    # reload and backup
+    firewall-cmd --reload
+    cp /etc/firewalld/zones/$zone.* /opt/bak/
+
+    # list rules for review
+    firewall-cmd --list-all
+else
     # iptables
     # Accept by default in case of flush
     iptables -P INPUT ACCEPT

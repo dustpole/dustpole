@@ -42,7 +42,7 @@ sudo chmod 770 $SPLUNK_HOME
 # Start Splunk and enable boot-start
 cd "$SPLUNK_HOME/splunkforwarder/bin"
 sudo ./splunk start --accept-license
-sudo ./splunk enable boot-start -user splunk
+sudo ./splunk enable boot-start -user root
 
 # Set Splunk server IP
 FORWARDSERVER="172.20.241.20:9997"

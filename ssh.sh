@@ -21,7 +21,7 @@ echo "PubkeyAuthentication no" >> /etc/ssh/sshd_config
 echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config
 echo "Port 13350" >> /etc/ssh/sshd_config
 
-if [[ "$(tail -1 /etc/ssh/sshd_config)" == "PermitEmptyPasswords no" ]] && [[ "$(tail -2 /etc/ssh/sshd_config | head -1)" == "PubkeyAuthentication no" ]]; then
+if [[ "$(tail -1 /etc/ssh/sshd_config)" == "PermitEmptyPasswords no" ]] && [[ "$(tail -2 /etc/ssh/sshd_config | head -1)" == "Port 13350" ]]; then
   echo "Successfully changed config files"
 else
   echo "Did not properly change config files"

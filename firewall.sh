@@ -2,15 +2,12 @@
 # 
 # firewall.sh
 # 
-# Quick script to get firewall going. No extra features,
-# raw, pure, defense only.
-# 
 # Works with iptables and firewalld
 # Prefers to use iptables
 #
 # Kaicheng Ye
 # Dec. 2023
-# Modified of webmail and Fedora 21
+# Modified for webmail and Fedora 21
 # Dustin Pollreis
 # Jan. 2024
 

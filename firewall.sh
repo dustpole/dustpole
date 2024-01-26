@@ -138,10 +138,14 @@ else
     # Allow all outgoing http & https
     iptables -A OUTPUT -p tcp -m multiport --dports 80,443,8000,9090 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p tcp -m multiport --sports 80,443,8000,9090 -m conntrack --ctstate ESTABLISHED -j ACCEPT
-
+    iptables -A OUTPUT -p udp -m multiport --dports 80,443,8000,9090 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p udp -m multiport --sports 80,443,8000,9090 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    
     # Allow outgoing DNS
     iptables -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p udp --sport 53 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p tcp --dport 53 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp --sport 53 -m conntrack --ctstate ESTABLISHED -j ACCEPT
  
     # Allow outgoing NTP
     iptables -A OUTPUT -p udp --dport 123 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
@@ -158,18 +162,28 @@ else
     # Allow outgoing SMTP
     iptables -A OUTPUT -p tcp -m multiport --dports 25,587,465,2525 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p tcp -m multiport --sports 25,587,465,2525 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p udp -m multiport --dports 25,587,465,2525 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p udp -m multiport --sports 25,587,465,2525 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow outgoing POP3
     iptables -A OUTPUT -p tcp -m multiport --dports 110,995 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p tcp -m multiport --sports 110,995 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p udp -m multiport --dports 110,995 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p udp -m multiport --sports 110,995 -m conntrack --ctstate ESTABLISHED -j ACCEPT
     
     # Allow outgoing MySQL
-    iptables -A OUTPUT -p tcp -m multiport --dports 3306 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-    iptables -A INPUT -p tcp -m multiport --sports 3306 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p tcp --dport 3306 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp --sport 3306 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow outgoing IMAP
     iptables -A OUTPUT -p tcp -m multiport --dports 143,993 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
     iptables -A INPUT -p tcp -m multiport --sports 143,993 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+    # Allow outgoing LDAP
+    iptables -A OUTPUT -p udp --dport 389 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p udp --sport 389 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p tcp --dport 389 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp --sport 389 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow local communication
     iptables -A INPUT -i lo -j ACCEPT

@@ -18,6 +18,8 @@ SPLUNK_HOME="/opt/splunkforwarder"
 if [ -d "$SPLUNK_HOME" ]; then
     echo "Splunk is already installed. Exiting."
     exit 1
+else
+    mkdir -p /opt/splunkforwarder
 fi
 
 

@@ -60,8 +60,8 @@ else
   fi
 fi
 
-# try to use iptables
-which sestatus >/dev/null
+# Change selinux port for ssh
+which semanage >/dev/null
 if [[ $? -ne 0 ]]
   then  
     sudo semanage port -a -t ssh_port_t -p tcp 13350

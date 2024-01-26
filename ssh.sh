@@ -58,3 +58,10 @@ else
     echo "/etc/rc.d/sshd could not restart ssh"
   fi
 fi
+
+# try to use iptables
+which sestatus >/dev/null
+if [[ $? -ne 0 ]]
+  then  
+    sudo semanage port -a -t ssh_port_t -p tcp 13350
+fi

@@ -133,8 +133,8 @@ else
     iptables -I INPUT 1 -m conntrack --ctstate INVALID -j DROP
 
     # Allow outgoing SSH
-    iptables -A OUTPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-    iptables -A INPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+    iptables -A OUTPUT -p tcp --dport 13350 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -p tcp --sport 13350 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
     # Allow all outgoing http & https
     iptables -A OUTPUT -p tcp -m multiport --dports 80,443,8000,9090 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT

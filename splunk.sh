@@ -6,21 +6,21 @@ exec > >(sudo tee -a "$log_file") 2>&1
 echo "Log started: $(date)"
 
 # Check for dependencies
-# if ! sudo command -v wget &> /dev/null; then
-#     echo "wget is not installed. Please install it before running the script."
-#     exit 1
-# else
-#     mkdir -p /opt/splunkforwarder
-# fi
-#
-# Check if Splunk is already installed
-SPLUNK_HOME="/opt/splunkforwarder"
-# if [ -d "$SPLUNK_HOME" ]; then
-#    echo "Splunk is already installed. Exiting."
-#    exit 1
-# else
-#    mkdir -p /opt/splunkforwarder
-# fi
+if ! sudo command -v wget &> /dev/null; then
+    echo "wget is not installed. Please install it before running the script."
+    exit 1
+else
+    mkdir -p /opt/splunkforwarder
+fi
+
+Check if Splunk is already installed
+SPLUNK_HOME="/opt/splunkforwarder/splunkforwarder/bin"
+if [ -d "$SPLUNK_HOME" ]; then
+   echo "Splunk is already installed. Exiting."
+   exit 1
+else
+   mkdir -p /opt/splunkforwarder
+fi
 
 mkdir -p $SPLUNK_HOME
 
@@ -36,11 +36,11 @@ sudo tar -xzf "$SPLUNK_HOME/splunkforwarder.tgz"
 sudo rm "$SPLUNK_HOME/splunkforwarder.tgz"
 
 # Set ownership and permissions
-sudo chown --recursive splunk:splunk "$SPLUNK_HOME"
+sudo chown --recursive root:root "$SPLUNK_HOME"
 
 # Start Splunk and enable boot-start
 cd "$SPLUNK_HOME/bin"
-sudo chmod 770 splunk
+sudo chmod 770 root
 sudo ./splunk start --accept-license
 sudo ./splunk enable boot-start -user splunk
 

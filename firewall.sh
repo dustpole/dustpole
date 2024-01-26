@@ -31,7 +31,6 @@ then
     which iptables >/dev/null
     if [[ $? -ne 0 ]]
     then
-    	$FIREWALL='iptables'
         yum install iptables -y
     fi
 	    # try to use iptables-services

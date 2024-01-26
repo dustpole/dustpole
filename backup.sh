@@ -46,7 +46,8 @@ tar --exclude=/proc --exclude=/sys --exclude=/dev --exclude=/run \
 
 # Check if the backup was successful
 if [ $? -eq 0 ]; then
-    echo "Full backup completed successfully. Backup file: $backup_dir/$backup_filename"
+    echo "Full backup completed successfully." 
+    echo "Backup file: $backup_dir/$backup_filename"
     log "Full backup completed successfully. Backup file: $backup_dir/$backup_filename"
 else
     handle_error "Full backup failed. Check $log_file for details."
